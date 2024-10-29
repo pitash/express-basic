@@ -1,43 +1,57 @@
 const express = require('express');
-var cookieParser = require('cookie-parser'); 
-const handler = require('./handler');
-
 const app = express();
-app.use(express.json());
-app.use(cookieParser()); 
 
-const adminRoute = express.Router();
-adminRoute.get('/dashboard', (req, res)=>{
-    console.log(req.originalUrl);
-    console.log(req.url);
-    console.log(req.path);
-    console.log(req.hostname);
-    console.log(req.ip);
-    res.send('We are in admin dashboard');
+app.set('view engine', 'ejs');
+
+app.get('/test', (req, res) => {
+    res.send('Hello Redirect');
+});
+app.get('/testRedirect', (req, res) => {
+    res.redirect('/test');
+    res.end();
 });
 
-app.use('/admin', adminRoute);
+app.get('/about', (req, res)=>{
+    // res.send('About Page');
+    // console.log(res.headersSent);
+    // res.render('pages/about', {
+    //     name: 'Bangladesh'
+    // });
 
-app.get('/user/:id', (req, res)=>{
-    console.log(req.originalUrl);
-    console.log(req.url);
-    console.log(req.path);
-    console.log(req.hostname);
-    console.log(req.ip);
-    console.log(req.method);
-    console.log(req.protocol);
-    console.log(req.params);
-    console.log(req.query);
-    console.log(req.cookies);
-    res.send('welcome to application');
-});
+    // res.json({
+    //     name: 'Dhaka',
+    // });
+    
+    // res.status(200);
+    // res.end();
 
-app.get('/handler/', handler);
+    // res.cookie('name', 'Pitash');
+    // res.end();
 
-app.post('/user/', (req, res)=>{
-    console.log(req.body);
-    res.send('welcome to Post Application URL');
-});
+    // res.location('/test');
+    // res.end();
+
+    res.format({
+        'text/plain': ()=> {
+            res.send('hi');
+        },
+        'text/html': ()=> {
+            res.render('pages/about',{
+                name: 'Bangladesh'
+            });
+        },
+        'application/json': ()=> {
+            res.json({
+                message: 'About'
+            });
+        },
+        default: () => {
+            res.status(400).send('Not Acceptable');
+        }
+    });
+
+    // console.log(res.headersSent);
+})
 
 app.listen(3000, ()=> {
     console.log('listening on port 3000');
