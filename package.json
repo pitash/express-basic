@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "nodemon index.js",
+    "production": "cross-env NODE_ENV=production nodemon index.js"
+  },
   "dependencies": {
     "cookie-parser": "^1.4.7",
     "ejs": "^3.1.10",
@@ -6,6 +10,7 @@
     "nodemon": "^3.1.7"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.7"
+    "@types/cookie-parser": "^1.4.7",
+    "cross-env": "^7.0.3"
   }
 }
